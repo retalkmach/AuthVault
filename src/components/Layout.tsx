@@ -3,9 +3,10 @@ import { Shield } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
+  action?: React.ReactNode;
 }
 
-export function Layout({ children }: LayoutProps) {
+export function Layout({ children, action }: LayoutProps) {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30">
       {/* Top Bar */}
@@ -17,7 +18,7 @@ export function Layout({ children }: LayoutProps) {
           <h1 className="text-lg font-semibold tracking-tight">AuthVault</h1>
         </div>
         <div className="flex items-center gap-4">
-          {/* Actions will go here */}
+          {action}
         </div>
       </header>
 
