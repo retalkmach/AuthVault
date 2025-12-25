@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Copy, Clock } from 'lucide-react';
+import { Copy, Clock, Trash2 } from 'lucide-react';
 import { Account } from '../types';
 import { generateToken } from '../lib/totp';
+import { useAuthStore } from '../store';
 
 interface AccountCardProps {
   account: Account;
 }
 
 export function AccountCard({ account }: AccountCardProps) {
+  const removeAccount = useAuthStore((state) => state.removeAccount);
   const [tokenData, setTokenData] = useState(generateToken(account));
   const [copied, setCopied] = useState(false);
 
@@ -22,6 +24,13 @@ export function AccountCard({ account }: AccountCardProps) {
     navigator.clipboard.writeText(tokenData.token);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent copy trigger
+    if (confirm(`Are you sure you want to delete ${account.accountName}?`)) {
+      removeAccount(account.id);
+    }
   };
 
   const progress = (tokenData.timeLeft / tokenData.period) * 100;
@@ -43,8 +52,17 @@ export function AccountCard({ account }: AccountCardProps) {
           <h3 className="text-sm font-medium text-slate-400">{account.issuer}</h3>
           <p className="text-slate-200 text-sm">{account.accountName}</p>
         </div>
-        <div className="text-slate-500 hover:text-white transition-colors">
-            {copied ? <span className="text-xs text-green-400 font-medium">Copied!</span> : <Copy className="w-4 h-4" />}
+        <div className="flex items-center gap-2">
+           <button 
+            onClick={handleDelete}
+            className="text-slate-600 hover:text-red-400 transition-colors p-1 opacity-0 group-hover:opacity-100"
+            title="Delete Account"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+          <div className="text-slate-500 hover:text-white transition-colors">
+              {copied ? <span className="text-xs text-green-400 font-medium">Copied!</span> : <Copy className="w-4 h-4" />}
+          </div>
         </div>
       </div>
 
@@ -60,3 +78,4 @@ export function AccountCard({ account }: AccountCardProps) {
     </div>
   );
 }
+

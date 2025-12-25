@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { Account, AccountType } from '../types';
 
 interface AuthStore {
@@ -8,34 +9,42 @@ interface AuthStore {
   updateAccount: (id: string, data: Partial<Account>) => void;
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
-  accounts: [
-    {
-      id: '1',
-      issuer: 'Demo Service',
-      accountName: 'user@example.com',
-      secret: 'JBSWY3DPEHPK3PXP', // Base32 for 'Hello!'
-      type: AccountType.TOTP,
-      createdAt: Date.now(),
-    },
-  ],
-  addAccount: (account) =>
-    set((state) => ({
+export const useAuthStore = create<AuthStore>()(
+  persist(
+    (set) => ({
       accounts: [
-        ...state.accounts,
         {
-          ...account,
-          id: crypto.randomUUID(),
+          id: '1',
+          issuer: 'Demo Service',
+          accountName: 'user@example.com',
+          secret: 'JBSWY3DPEHPK3PXP', // Base32 for 'Hello!'
+          type: AccountType.TOTP,
           createdAt: Date.now(),
         },
       ],
-    })),
-  removeAccount: (id) =>
-    set((state) => ({
-      accounts: state.accounts.filter((a) => a.id !== id),
-    })),
-  updateAccount: (id, data) =>
-    set((state) => ({
-      accounts: state.accounts.map((a) => (a.id === id ? { ...a, ...data } : a)),
-    })),
-}));
+      addAccount: (account) =>
+        set((state) => ({
+          accounts: [
+            ...state.accounts,
+            {
+              ...account,
+              id: crypto.randomUUID(),
+              createdAt: Date.now(),
+            },
+          ],
+        })),
+      removeAccount: (id) =>
+        set((state) => ({
+          accounts: state.accounts.filter((a) => a.id !== id),
+        })),
+      updateAccount: (id, data) =>
+        set((state) => ({
+          accounts: state.accounts.map((a) => (a.id === id ? { ...a, ...data } : a)),
+        })),
+    }),
+    {
+      name: 'auth-vault-storage',
+    }
+  )
+);
+

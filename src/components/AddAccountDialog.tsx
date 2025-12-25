@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { X, Check } from 'lucide-react';
-import { cn } from '../lib/utils';
 import { useAuthStore } from '../store';
 import { AccountType } from '../types';
 
