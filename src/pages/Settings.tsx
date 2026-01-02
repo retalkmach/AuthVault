@@ -37,7 +37,7 @@ export default function Settings() {
       });
       if (!filePath) return;
 
-      const content = await readTextFile(filePath.path);
+      const content = await readTextFile(filePath);
       const importedAccounts = JSON.parse(content) as Account[];
 
       // Simple validation
