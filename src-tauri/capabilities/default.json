@@ -1,10 +1,23 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "Capability for the main window",
+  "description": "Default permissions for the application",
   "windows": ["main"],
   "permissions": [
-    "core:default",
-    "opener:default"
+    "path:default",
+    "event:default",
+    "window:default",
+    "app:default",
+    "image:default",
+    "resources:default",
+    "menu:default",
+    "tray:default",
+    "shell:default",
+    "notification:default",
+    "dialog:default",
+    "fs:default",
+    "webview:default",
+    "app-version:default",
+    "updater:default"
   ]
 }

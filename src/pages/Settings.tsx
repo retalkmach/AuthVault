@@ -1,0 +1,141 @@
+import { Layout } from '../components/Layout';
+import { useThemeStore } from '../store/theme';
+import { useAuthStore } from '../store';
+import { save, open } from '@tauri-apps/plugin-dialog';
+import { writeTextFile, readTextFile } from '@tauri-apps/plugin-fs';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, Moon, Sun, Monitor, Download, Upload } from 'lucide-react';
+import { Account } from '../types';
+
+export default function Settings() {
+  const navigate = useNavigate();
+  const { theme, setTheme } = useThemeStore();
+  const { accounts, addAccount } = useAuthStore();
+
+  const handleExport = async () => {
+    try {
+      const filePath = await save({
+        filters: [{ name: 'JSON', extensions: ['json'] }],
+        defaultPath: `auth-vault-backup-${Date.now()}.json`
+      });
+      if (!filePath) return;
+
+      const dataToExport = JSON.stringify(accounts, null, 2);
+      await writeTextFile(filePath, dataToExport);
+      alert('Export successful!');
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('Export failed.');
+    }
+  };
+
+  const handleImport = async () => {
+    try {
+      const filePath = await open({
+        multiple: false,
+        filters: [{ name: 'JSON', extensions: ['json'] }],
+      });
+      if (!filePath) return;
+
+      const content = await readTextFile(filePath.path);
+      const importedAccounts = JSON.parse(content) as Account[];
+
+      // Simple validation
+      if (!Array.isArray(importedAccounts)) {
+        throw new Error('Invalid file format');
+      }
+
+      // Here you might want to merge, but for simplicity, we'll just add them
+      // A more robust solution would check for duplicates
+      importedAccounts.forEach(account => {
+        // A bit of validation to ensure we're not importing junk
+        if(account.secret && account.accountName) {
+            // We create a new ID and timestamp
+             addAccount({
+                issuer: account.issuer,
+                accountName: account.accountName,
+                secret: account.secret,
+                type: account.type,
+             });
+        }
+      });
+
+      alert('Import successful!');
+    } catch (error) {
+      console.error('Import failed:', error);
+      alert(`Import failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const ThemeButton = ({ value, currentTheme, children, onClick }: any) => (
+    <button
+      onClick={onClick}
+      className={`flex-1 p-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-colors ${
+        currentTheme === value
+          ? 'bg-indigo-600 text-white'
+          : 'bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700'
+      }`}
+    >
+      {children}
+    </button>
+  );
+
+  return (
+    <Layout
+      action={
+        <button
+          onClick={() => navigate('/')}
+          className="p-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-lg transition-colors flex items-center gap-2 text-sm font-medium"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span className="hidden sm:inline">Back</span>
+        </button>
+      }
+    >
+      <div className="space-y-8">
+        {/* Theme Settings */}
+        <div>
+          <h2 className="text-lg font-semibold mb-3">Theme</h2>
+          <div className="flex gap-2 p-1 bg-slate-200 dark:bg-slate-900 rounded-xl">
+            <ThemeButton value="light" currentTheme={theme} onClick={() => setTheme('light')}>
+              <Sun className="w-4 h-4" /> Light
+            </ThemeButton>
+            <ThemeButton value="dark" currentTheme={theme} onClick={() => setTheme('dark')}>
+              <Moon className="w-4 h-4" /> Dark
+            </ThemeButton>
+            <ThemeButton value="system" currentTheme={theme} onClick={() => setTheme('system')}>
+              <Monitor className="w-4 h-4" /> System
+            </ThemeButton>
+          </div>
+        </div>
+
+        {/* Data Management */}
+        <div>
+          <h2 className="text-lg font-semibold mb-3">Data Management</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button 
+              onClick={handleExport}
+              className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center gap-4 hover:border-indigo-500/50 transition-colors shadow-sm"
+            >
+              <Download className="w-6 h-6 text-indigo-500"/>
+              <div>
+                <h3 className="font-semibold text-left">Export Data</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 text-left">Save your accounts to a JSON file.</p>
+              </div>
+            </button>
+            <button 
+              onClick={handleImport}
+              className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl flex items-center gap-4 hover:border-indigo-500/50 transition-colors shadow-sm"
+            >
+              <Upload className="w-6 h-6 text-indigo-500"/>
+              <div>
+                <h3 className="font-semibold text-left">Import Data</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400 text-left">Load accounts from a JSON file.</p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+}
