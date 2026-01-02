@@ -65,12 +65,12 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-        <div className="flex items-center justify-between p-4 border-b border-slate-800">
-          <h2 className="text-lg font-semibold text-white">Add Account</h2>
+      <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Add Account</h2>
           <button 
             onClick={onClose}
-            className="p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="p-1 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -79,61 +79,61 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
         <div className="p-4 pb-0 space-y-3">
             <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Link className="h-4 w-4 text-slate-500" />
+                    <Link className="h-4 w-4 text-slate-400 dark:text-slate-500" />
                 </div>
                 <input
                     type="text"
                     placeholder="Paste otpauth:// URL to autofill"
-                    className={`w-full bg-slate-950 border ${error ? 'border-red-500/50 focus:border-red-500' : 'border-slate-800 focus:border-indigo-500'} rounded-lg pl-9 pr-3 py-2 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-sm`}
+                    className={`w-full bg-slate-50 dark:bg-slate-950 border ${error ? 'border-red-500/50 focus:border-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500'} rounded-lg pl-9 pr-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-sm`}
                     value={importUrl}
                     onChange={(e) => handleImport(e.target.value)}
                 />
             </div>
              {error && (
-                <div className="flex items-center gap-2 text-xs text-red-400">
+                <div className="flex items-center gap-2 text-xs text-red-500 dark:text-red-400">
                     <AlertCircle className="w-3 h-3" />
                     <span>{error}</span>
                 </div>
             )}
             
             <div className="relative flex items-center py-2">
-                <div className="flex-grow border-t border-slate-800"></div>
+                <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
                 <span className="flex-shrink-0 mx-4 text-xs text-slate-500 font-medium">OR ENTER MANUALLY</span>
-                <div className="flex-grow border-t border-slate-800"></div>
+                <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
             </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-4 pt-0 space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">Issuer (Optional)</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Issuer (Optional)</label>
             <input 
               type="text" 
               placeholder="e.g. Google, GitHub" 
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
               value={formData.issuer}
               onChange={(e) => setFormData({ ...formData, issuer: e.target.value })}
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">Account Name</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Account Name</label>
             <input 
               type="text" 
               placeholder="e.g. user@example.com" 
               required
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
               value={formData.accountName}
               onChange={(e) => setFormData({ ...formData, accountName: e.target.value })}
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">Secret Key</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Secret Key</label>
             <input 
               type="text" 
               placeholder="Base32 Secret (e.g. JBSW Y3DP...)" 
               required
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-mono"
+              className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-mono"
               value={formData.secret}
               onChange={(e) => setFormData({ ...formData, secret: e.target.value })}
             />
@@ -143,7 +143,7 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
             <button 
               type="button" 
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+              className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 rounded-lg transition-colors"
             >
               Cancel
             </button>

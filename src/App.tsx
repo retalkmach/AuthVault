@@ -29,10 +29,10 @@ function App() {
       
       {accounts.length === 0 && (
         <div className="text-center py-20">
-          <p className="text-slate-500 mb-4">No accounts yet.</p>
+          <p className="text-slate-500 dark:text-slate-400 mb-4">No accounts yet.</p>
           <button 
             onClick={() => setIsAddOpen(true)}
-            className="text-indigo-400 hover:text-indigo-300 font-medium text-sm"
+            className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-medium text-sm"
           >
             Add one to get started
           </button>
