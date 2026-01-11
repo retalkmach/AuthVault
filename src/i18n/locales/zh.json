@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "AuthVault",
+    "back": "返回"
+  },
+  "settings": {
+    "title": "设置",
+    "theme": {
+      "title": "主题",
+      "light": "浅色",
+      "dark": "深色",
+      "system": "系统"
+    },
+    "language": {
+      "title": "语言",
+      "en": "English",
+      "zh": "中文"
+    },
+    "data": {
+      "title": "数据管理",
+      "export": {
+        "title": "导出数据",
+        "desc": "将账号数据保存为 JSON 文件。",
+        "success": "导出成功！",
+        "fail": "导出失败。"
+      },
+      "import": {
+        "title": "导入数据",
+        "desc": "从 JSON 文件加载账号数据。",
+        "success": "导入成功！",
+        "fail": "导入失败：{{error}}"
+      }
+    }
+  },
+  "home": {
+    "add_account": "添加账号",
+    "search_placeholder": "搜索账号...",
+    "no_accounts": "暂无账号。",
+    "add_one": "添加一个开始使用",
+    "no_matches": "未找到匹配的账号。",
+    "clear_search": "清除搜索"
+  },
+  "add_dialog": {
+    "title": "添加账号",
+    "paste_url": "粘贴 otpauth:// 链接自动填写",
+    "error_invalid_url": "无效的 otpauth 链接",
+    "or_manual": "或手动输入",
+    "issuer": "发行方 (可选)",
+    "issuer_placeholder": "例如 Google, GitHub",
+    "account_name": "账号名称",
+    "account_placeholder": "例如 user@example.com",
+    "secret": "密钥",
+    "secret_placeholder": "Base32 密钥 (例如 JBSW Y3DP...)",
+    "cancel": "取消",
+    "confirm": "添加账号"
+  },
+  "account_card": {
+    "copy_code": "复制验证码",
+    "delete": "删除",
+    "copied": "已复制!",
+    "delete_confirm": "确定要删除 {{name}} 吗？"
+  }
+}
