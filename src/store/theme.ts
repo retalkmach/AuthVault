@@ -15,6 +15,7 @@ const applyTheme = (theme: Theme) => {
     (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   root.classList.toggle('dark', isDark);
+  root.style.colorScheme = isDark ? 'dark' : 'light';
 };
 
 export const useThemeStore = create<ThemeStore>()(

@@ -1,0 +1,63 @@
+{
+  "app": {
+    "name": "AuthVault",
+    "back": "Back"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": {
+      "title": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "title": "Language",
+      "en": "English",
+      "zh": "中文"
+    },
+    "data": {
+      "title": "Data Management",
+      "export": {
+        "title": "Export Data",
+        "desc": "Save your accounts to a JSON file.",
+        "success": "Export successful!",
+        "fail": "Export failed."
+      },
+      "import": {
+        "title": "Import Data",
+        "desc": "Load accounts from a JSON file.",
+        "success": "Import successful!",
+        "fail": "Import failed: {{error}}"
+      }
+    }
+  },
+  "home": {
+    "add_account": "Add Account",
+    "search_placeholder": "Search accounts...",
+    "no_accounts": "No accounts yet.",
+    "add_one": "Add one to get started",
+    "no_matches": "No accounts match your search.",
+    "clear_search": "Clear search"
+  },
+  "add_dialog": {
+    "title": "Add Account",
+    "paste_url": "Paste otpauth:// URL to autofill",
+    "error_invalid_url": "Invalid otpauth URL",
+    "or_manual": "OR ENTER MANUALLY",
+    "issuer": "Issuer (Optional)",
+    "issuer_placeholder": "e.g. Google, GitHub",
+    "account_name": "Account Name",
+    "account_placeholder": "e.g. user@example.com",
+    "secret": "Secret Key",
+    "secret_placeholder": "Base32 Secret (e.g. JBSW Y3DP...)",
+    "cancel": "Cancel",
+    "confirm": "Add Account"
+  },
+  "account_card": {
+    "copy_code": "Copy code",
+    "delete": "Delete",
+    "copied": "Copied!",
+    "delete_confirm": "Are you sure you want to delete {{name}}?"
+  }
+}

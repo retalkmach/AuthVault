@@ -3,6 +3,7 @@ import { X, Check, Link, AlertCircle } from 'lucide-react';
 import * as OTPAuth from 'otpauth';
 import { useAuthStore } from '../store';
 import { AccountType } from '../types';
+import { useTranslation } from 'react-i18next';
 
 interface AddAccountDialogProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
   });
   const [importUrl, setImportUrl] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   if (!isOpen) return null;
 
@@ -37,7 +39,7 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
         secret: parsed.secret.base32,
       });
     } catch (err) {
-      setError('Invalid otpauth URL');
+      setError(t('add_dialog.error_invalid_url'));
       // Don't clear form data, maybe the user is just typing
     }
   };
@@ -67,7 +69,7 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
-          <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Add Account</h2>
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{t('add_dialog.title')}</h2>
           <button 
             onClick={onClose}
             className="p-1 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
@@ -83,7 +85,7 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
                 </div>
                 <input
                     type="text"
-                    placeholder="Paste otpauth:// URL to autofill"
+                    placeholder={t('add_dialog.paste_url')}
                     className={`w-full bg-slate-50 dark:bg-slate-950 border ${error ? 'border-red-500/50 focus:border-red-500' : 'border-slate-200 dark:border-slate-800 focus:border-indigo-500'} rounded-lg pl-9 pr-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all text-sm`}
                     value={importUrl}
                     onChange={(e) => handleImport(e.target.value)}
@@ -98,17 +100,17 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
             
             <div className="relative flex items-center py-2">
                 <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                <span className="flex-shrink-0 mx-4 text-xs text-slate-500 font-medium">OR ENTER MANUALLY</span>
+                <span className="flex-shrink-0 mx-4 text-xs text-slate-500 font-medium">{t('add_dialog.or_manual')}</span>
                 <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
             </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-4 pt-0 space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Issuer (Optional)</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('add_dialog.issuer')}</label>
             <input 
               type="text" 
-              placeholder="e.g. Google, GitHub" 
+              placeholder={t('add_dialog.issuer_placeholder')} 
               className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
               value={formData.issuer}
               onChange={(e) => setFormData({ ...formData, issuer: e.target.value })}
@@ -116,10 +118,10 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Account Name</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('add_dialog.account_name')}</label>
             <input 
               type="text" 
-              placeholder="e.g. user@example.com" 
+              placeholder={t('add_dialog.account_placeholder')} 
               required
               className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all"
               value={formData.accountName}
@@ -128,10 +130,10 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Secret Key</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('add_dialog.secret')}</label>
             <input 
               type="text" 
-              placeholder="Base32 Secret (e.g. JBSW Y3DP...)" 
+              placeholder={t('add_dialog.secret_placeholder')} 
               required
               className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all font-mono"
               value={formData.secret}
@@ -145,14 +147,14 @@ export function AddAccountDialog({ isOpen, onClose }: AddAccountDialogProps) {
               onClick={onClose}
               className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 rounded-lg transition-colors"
             >
-              Cancel
+              {t('add_dialog.cancel')}
             </button>
             <button 
               type="submit" 
               className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg transition-colors flex items-center gap-2 shadow-lg shadow-indigo-500/20"
             >
               <Check className="w-4 h-4" />
-              Add Account
+              {t('add_dialog.confirm')}
             </button>
           </div>
         </form>

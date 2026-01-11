@@ -3,6 +3,7 @@ import { Copy, Clock, Trash2 } from 'lucide-react';
 import { Account } from '../types';
 import { generateToken } from '../lib/totp';
 import { useAuthStore } from '../store';
+import { useTranslation } from 'react-i18next';
 
 interface AccountCardProps {
   account: Account;
@@ -12,6 +13,7 @@ export function AccountCard({ account }: AccountCardProps) {
   const removeAccount = useAuthStore((state) => state.removeAccount);
   const [tokenData, setTokenData] = useState(generateToken(account));
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,7 +30,7 @@ export function AccountCard({ account }: AccountCardProps) {
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent copy trigger
-    if (confirm(`Are you sure you want to delete ${account.accountName}?`)) {
+    if (confirm(t('account_card.delete_confirm', { name: account.accountName }))) {
       removeAccount(account.id);
     }
   };
@@ -56,12 +58,12 @@ export function AccountCard({ account }: AccountCardProps) {
            <button 
             onClick={handleDelete}
             className="text-slate-400 dark:text-slate-600 hover:text-red-500 dark:hover:text-red-400 transition-colors p-1 opacity-0 group-hover:opacity-100"
-            title="Delete Account"
+            title={t('account_card.delete')}
           >
             <Trash2 className="w-4 h-4" />
           </button>
           <div className="text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors">
-              {copied ? <span className="text-xs text-green-500 dark:text-green-400 font-medium">Copied!</span> : <Copy className="w-4 h-4" />}
+              {copied ? <span className="text-xs text-green-500 dark:text-green-400 font-medium">{t('account_card.copied')}</span> : <Copy className="w-4 h-4" />}
           </div>
         </div>
       </div>

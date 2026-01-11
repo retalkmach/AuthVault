@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, Settings as SettingsIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -9,6 +10,7 @@ interface LayoutProps {
 
 export function Layout({ children, action }: LayoutProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-indigo-500/30">
@@ -18,14 +20,14 @@ export function Layout({ children, action }: LayoutProps) {
           <div className="p-2 bg-indigo-500/10 rounded-lg">
             <Shield className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
           </div>
-          <h1 className="text-lg font-semibold tracking-tight">AuthVault</h1>
+          <h1 className="text-lg font-semibold tracking-tight">{t('app.name')}</h1>
         </div>
         <div className="flex items-center gap-2">
           {action}
           <button
             onClick={() => navigate('/settings')}
             className="p-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 transition-colors"
-            title="Settings"
+            title={t('settings.title')}
           >
             <SettingsIcon className="w-5 h-5" />
           </button>
